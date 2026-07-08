@@ -1,0 +1,77 @@
+[package]
+name = "proxy-tg"
+version = "1.0.0"
+edition = "2026"
+description = "Телеграм MTProto мост WebSocket Прокси"
+repository = "https://github.com/aksa4y/proxy-tg"
+homepage = "https://github.com/aksa4y/proxy-tg"
+keywords = ["telegram", "mtproto", "websocket", "proxy", "rust"]
+categories = ["network-programming", "command-line-utilities"]
+
+[[bin]]
+name = "proxy-tg"
+path = "src/main.rs"
+
+[dependencies]
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# WebSocket protocol with TLS support
+tokio-tungstenite = { version = "0.24", features = ["rustls-tls-webpki-roots"] }
+tungstenite = { version = "0.24" }
+
+# AES-256-CTR encryption for MTProto obfuscation
+aes = "0.8"
+ctr = "0.9"
+cipher = "0.4"
+
+# SHA-256 for MTProto key derivation
+sha2 = "0.10"
+
+# HMAC-SHA256 for FakeTLS upstream proxy authentication
+hmac = "0.12"
+
+# Random bytes for handshake generation
+rand = "0.9"
+
+# Hex encoding / decoding utilities
+hex = "0.4"
+
+# CLI argument parsing (with env-variable fallback)
+clap = { version = "4", features = ["derive", "env"] }
+
+# Proxy URL parsing and proxy protocol clients
+url = "2"
+percent-encoding = "2"
+proxyvars = "0.2"
+ipnet = "2"
+httparse = "1"
+async-http-proxy = { version = "1.2", features = [
+    "runtime-tokio",
+    "basic-auth",
+] }
+tokio-socks = "0.5"
+
+# Structured logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+
+# Async stream utilities (SinkExt, StreamExt)
+futures-util = "0.3"
+
+# Custom TLS configuration (skip-verify option)
+rustls = { version = "0.23", features = ["ring"] }
+rustls-pki-types = "1"
+# Bundled Mozilla root cert store (used by the default TLS connector)
+webpki-roots = "0.26"
+# Async TLS streams (transitive dep of tokio-tungstenite; used for HTTPS GET in default_domains)
+tokio-rustls = "0.26"
+
+[dev-dependencies]
+rcgen = "0.12"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
