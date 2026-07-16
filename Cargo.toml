@@ -1,7 +1,7 @@
 [package]
 name = "proxy-tg"
 version = "1.0.0"
-edition = "2024"
+edition = "2021"
 description = "Телеграм MTProto мост WebSocket Прокси"
 repository = "https://github.com/aksa4y/proxy-tg"
 homepage = "https://github.com/aksa4y/proxy-tg"
